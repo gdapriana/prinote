@@ -1,6 +1,6 @@
 import express, { Express, Request, Response } from "express";
 import cors from "cors";
-import helmet from "helmet";
+import { securityHeaders } from "./middlewares/security-headers.js";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import { notFoundHandler } from "./middlewares/not-found-handler.js";
@@ -29,7 +29,7 @@ app.use(
     credentials: true
   })
 );
-app.use(helmet());
+app.use(securityHeaders);
 app.use(cookieParser());
 app.use(morgan(process.env.NODE_ENV === "development" ? "dev" : "combined"));
 setupSwagger(app);
