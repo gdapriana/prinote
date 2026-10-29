@@ -1,0 +1,66 @@
+{
+  "name": "servercn-drizzle-pg-starter",
+  "version": "1.0.0",
+  "main": "dist/server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development npx tsx watch src/server.ts",
+    "build": "rm -rf dist && tsc && tsc-alias",
+    "start": "cross-env NODE_ENV=production node dist/server.js",
+    "typecheck": "tsc --noEmit",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push",
+    "db:seed": "bun run src/drizzle/seed.ts",
+    "db:studio": "drizzle-kit studio",
+    "lint:check": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format:check": "bunx prettier . --check",
+    "format:fix": "bunx prettier . --write",
+    "docs": "npx tsx swagger.config.ts"
+  },
+  "lint-staged": {
+    "src/**/*.ts": [
+      "eslint --fix",
+      "prettier --write",
+      "tsc --noEmit"
+    ]
+  },
+  "devDependencies": {
+    "@types/cookie-parser": "^1.4.10",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/morgan": "^1.9.10",
+    "@types/node": "^26.6.5",
+    "@types/pg": "^8.23.1",
+    "@types/source-map-support": "^0.5.10",
+    "@types/swagger-ui-express": "^4.1.8",
+    "drizzle-kit": "^0.31.11",
+    "morgan": "^1.12.1",
+    "prettier": "^3.9.10",
+    "tsc-alias": "^1.9.9",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "@node-rs/argon2": "^2.2.2",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "cross-env": "^10.1.0",
+    "dotenv-flow": "^4.1.0",
+    "drizzle-orm": "^0.45.4",
+    "drizzle-seed": "^0.3.1",
+    "drizzle-zod": "^0.8.3",
+    "express": "^5.3.0",
+    "express-rate-limit": "^8.7.1",
+    "helmet": "^8.3.0",
+    "pg": "^8.23.1",
+    "pino": "^10.4.0",
+    "pino-pretty": "^13.2.0",
+    "slugify": "^1.6.9",
+    "source-map-support": "^0.5.21",
+    "swagger-autogen": "^2.23.7",
+    "swagger-ui-express": "^5.0.1",
+    "zod": "^4.6.7"
+  }
+}
