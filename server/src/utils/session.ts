@@ -2,7 +2,7 @@ import db from "../configs/db.js";
 import { sessionsTable, usersTable } from "../drizzle/index.js";
 import { eq } from "drizzle-orm";
 import { CookieOptions, Response } from "express";
-import rateLimit from "express-rate-limit";
+import { rateLimit } from "express-rate-limit";
 import { createHash, randomBytes } from "node:crypto";
 
 export const COOKIE_NAME = "session";
