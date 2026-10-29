@@ -1,5 +1,5 @@
-import db from "@/configs/db";
-import { sessionsTable, usersTable } from "@/drizzle";
+import db from "../configs/db.js";
+import { sessionsTable, usersTable } from "../drizzle/index.js";
 import { eq } from "drizzle-orm";
 import { CookieOptions, Response } from "express";
 import rateLimit from "express-rate-limit";
@@ -79,7 +79,7 @@ export async function validateSession(token: string) {
   }
 
   let renewedExpiresAt: Date | null = null;
-  if (row.session.expiresAt.getDate() - Date.now() < RENEW_THRESHOLD_MS) {
+  if (row.session.expiresAt.getTime() - Date.now() < RENEW_THRESHOLD_MS) {
     renewedExpiresAt = new Date(Date.now() + DURATION_MS);
     await db
       .update(sessionsTable)
@@ -87,7 +87,14 @@ export async function validateSession(token: string) {
       .where(eq(sessionsTable.id, id));
   }
 
-  return { session: row.session, user: row.user, renewedExpiresAt };
+  return {
+    session: {
+      ...row.session,
+      expiresAt: renewedExpiresAt ?? row.session.expiresAt
+    },
+    user: row.user,
+    renewedExpiresAt
+  };
 }
 
 export async function deleteSessionByToken(token: string) {

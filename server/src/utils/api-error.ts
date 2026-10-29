@@ -1,4 +1,4 @@
-import { STATUS_CODES, StatusCode } from "../constants/status-codes";
+import { STATUS_CODES, StatusCode } from "../constants/status-codes.js";
 
 export class ApiError extends Error {
   public readonly statusCode: StatusCode;

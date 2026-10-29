@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "target": "ES2021",
-    "module": "es2022",
-    "moduleResolution": "bundler",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -12,13 +12,7 @@
     "alwaysStrict": true,
     "useUnknownInCatchVariables": true,
     "forceConsistentCasingInFileNames": true,
-    "paths": {
-      "@/*": ["./src/*"]
-    }
-  },
-  "tsc-alias": {
-    "resolveFullPaths": true,
-    "verbose": false
+    "resolveJsonModule": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]

@@ -1,4 +1,4 @@
-import { STATUS_CODES, StatusCode } from "../constants/status-codes";
+import { STATUS_CODES, StatusCode } from "../constants/status-codes.js";
 import type { Response } from "express";
 
 type ApiResponseParams<T> = {

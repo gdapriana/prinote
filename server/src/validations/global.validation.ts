@@ -8,7 +8,7 @@ export const queryValidation = <
   sortEnum: T;
 }) => ({
   take: z.coerce.number().int().min(1).max(100).default(10),
-  cursor: z.string().optional(),
+  cursor: z.guid().optional(),
   sortBy: z.enum(sortEnum).default(sortEnum[0]),
   orderBy: z.enum(["desc", "asc"]).default("desc")
 });

@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 import { ZodError } from "zod";
-import env from "../configs/env";
+import env from "../configs/env.js";
 
-import { ApiError } from "../utils/api-error";
-import { logger } from "../utils/logger";
+import { ApiError } from "../utils/api-error.js";
+import { logger } from "../utils/logger.js";
 
 export const errorHandler = (
   err: Error,
@@ -31,6 +31,18 @@ export const errorHandler = (
     statusCode = err.statusCode;
     message = err.message;
     errors = err.errors;
+  }
+
+  if (
+    err instanceof SyntaxError &&
+    "type" in err &&
+    err.type === "entity.parse.failed"
+  ) {
+    statusCode = 400;
+    message = "Invalid JSON body";
+  } else if ("type" in err && err.type === "entity.too.large") {
+    statusCode = 413;
+    message = "Request body is too large";
   }
 
   logger.error(

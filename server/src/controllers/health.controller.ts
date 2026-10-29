@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
-import { ApiResponse } from "../utils/api-response";
+import { pool } from "../configs/db.js";
+import { ApiResponse } from "../utils/api-response.js";
 
 /**
  * Basic health check endpoint
- * GET /api/health
+ * GET /api/v1/health
  */
 export const healthCheck = async (_req: Request, res: Response) => {
   return ApiResponse.Success(res, "Service is healthy", {
@@ -15,7 +16,7 @@ export const healthCheck = async (_req: Request, res: Response) => {
 
 /**
  * Detailed health check with system information
- * GET /api/health/detailed
+ * GET /api/v1/health/detailed
  */
 export const detailedHealthCheck = async (_req: Request, res: Response) => {
   const healthData = {
@@ -37,4 +38,21 @@ export const detailedHealthCheck = async (_req: Request, res: Response) => {
   };
 
   return ApiResponse.Success(res, "Service is healthy", healthData);
+};
+
+// Liveness is independent of the database; readiness verifies its availability.
+export const readinessCheck = async (_req: Request, res: Response) => {
+  try {
+    await pool.query("SELECT 1");
+    return ApiResponse.ok(res, "Service is ready", {
+      status: "ready",
+      database: "up"
+    });
+  } catch {
+    return res.status(503).json({
+      success: false,
+      statusCode: 503,
+      message: "Database is unavailable"
+    });
+  }
 };

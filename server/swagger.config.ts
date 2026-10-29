@@ -2,15 +2,15 @@ import swaggerAutoGen from "swagger-autogen";
 
 const doc = {
   info: {
-    title: "Drizzle PG Starter",
-    description: "Drizzle PG Starter",
+    title: "Prinote API",
+    description: "Prinote API",
     version: "1.0.0"
   },
-  host: `localhost:3000`,
+  host: `localhost:${process.env.PORT || 3000}`,
   schemes: ["http"]
 };
 
 const outputFile = "./src/docs/swagger.json";
-const endpointsFiles = ["./src/routes/*.ts"];
+const endpointsFiles = ["./src/app.ts"];
 
 swaggerAutoGen(outputFile, endpointsFiles, doc);

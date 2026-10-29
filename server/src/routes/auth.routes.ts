@@ -1,6 +1,6 @@
-import { AuthController } from "@/controllers/auth.controller";
-import { requireAuth } from "@/middlewares/auth";
-import { authLimiter } from "@/utils/session";
+import { AuthController } from "../controllers/auth.controller.js";
+import { requireAuth } from "../middlewares/auth.js";
+import { authLimiter } from "../utils/session.js";
 import { Router } from "express";
 
 const authRoute = Router();

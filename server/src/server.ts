@@ -1,7 +1,7 @@
-import app from "./app";
-import env from "./configs/env";
-import { logger } from "./utils/logger";
-import { configureGracefulShutdown } from "./utils/shutdown";
+import app from "./app.js";
+import env from "./configs/env.js";
+import { logger } from "./utils/logger.js";
+import { configureGracefulShutdown } from "./utils/shutdown.js";
 
 const port = env.PORT || 9000;
 

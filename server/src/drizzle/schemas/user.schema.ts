@@ -6,7 +6,7 @@ import {
   uuid,
   varchar
 } from "drizzle-orm/pg-core";
-import { todosTable } from "./todo.schema";
+import { todosTable } from "./todo.schema.js";
 import { relations } from "drizzle-orm";
 
 export const usersTable = pgTable("users", {
@@ -62,7 +62,7 @@ export const sessionsTableRelations = relations(sessionsTable, ({ one }) => ({
 export type User = typeof usersTable.$inferSelect;
 export type NewUser = typeof usersTable.$inferInsert;
 export type Session = typeof sessionsTable.$inferSelect;
-export type NewSession = typeof sessionsTable.$inferSelect;
+export type NewSession = typeof sessionsTable.$inferInsert;
 
 export type RegisterResponse = Pick<User, "name" | "email" | "id">;
 export type LoginResponse = Pick<User, "name" | "email" | "id">;

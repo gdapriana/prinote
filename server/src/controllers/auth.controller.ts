@@ -1,14 +1,14 @@
-import { ApiResponse } from "@/utils/api-response";
+import { ApiResponse } from "../utils/api-response.js";
 import type { NextFunction, Request, Response } from "express";
 import type {
   LoginResponse,
   LogoutResponse,
   RegisterResponse,
   User
-} from "@/drizzle";
-import { AuthService } from "@/services/auth.service";
-import { AUTH_MESSAGE, CRUD_MESSAGE } from "@/constants/response-message";
-import { STATUS_CODES } from "@/constants/status-codes";
+} from "../drizzle/index.js";
+import { AuthService } from "../services/auth.service.js";
+import { AUTH_MESSAGE, CRUD_MESSAGE } from "../constants/response-message.js";
+import { STATUS_CODES } from "../constants/status-codes.js";
 
 export class AuthController {
   static REGISTER = async (req: Request, res: Response, next: NextFunction) => {
@@ -19,7 +19,7 @@ export class AuthController {
         res,
         body
       );
-      ApiResponse.Success(res, AUTH_MESSAGE.REGISTER_SUCCESS, result);
+      ApiResponse.created(res, AUTH_MESSAGE.REGISTER_SUCCESS, result);
     } catch (e) {
       next(e);
     }

@@ -1,5 +1,5 @@
-import { TodoController } from "@/controllers/todo.controller";
-import { requireAuth } from "@/middlewares/auth";
+import { TodoController } from "../controllers/todo.controller.js";
+import { requireAuth } from "../middlewares/auth.js";
 import { Router } from "express";
 
 const todoRoute = Router();

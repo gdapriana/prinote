@@ -3,6 +3,7 @@ import tsparser from "@typescript-eslint/parser";
 import prettierPlugin from "eslint-plugin-prettier";
 
 export default [
+  { ignores: ["dist/**", "node_modules/**", "coverage/**"] },
   {
     files: ["**/*.ts"],
 
@@ -20,9 +21,9 @@ export default [
       ...tseslint.configs.recommended.rules,
       "@typescript-eslint/no-unused-vars": "off",
       "@typescript-eslint/no-unused-expressions": "off",
-      "no-console": "warn",
+      "no-console": ["warn", { allow: ["error"] }],
       semi: ["error", "always"],
-      quotes: ["error", "double"],
+      quotes: ["error", "double", { avoidEscape: true }],
       "prettier/prettier": "error"
     }
   }

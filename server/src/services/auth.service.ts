@@ -1,20 +1,20 @@
-import db from "@/configs/db";
-import { AUTH_MESSAGE } from "@/constants/response-message";
-import { STATUS_CODES } from "@/constants/status-codes";
+import db from "../configs/db.js";
+import { AUTH_MESSAGE } from "../constants/response-message.js";
+import { STATUS_CODES } from "../constants/status-codes.js";
 import {
   LoginResponse,
   MeResponse,
   RegisterResponse,
   usersTable
-} from "@/drizzle";
-import { ApiError } from "@/utils/api-error";
+} from "../drizzle/index.js";
+import { ApiError } from "../utils/api-error.js";
 import {
   clearSessionCookie,
   COOKIE_NAME,
   createSession,
   deleteSessionByToken
-} from "@/utils/session";
-import { AuthValidation } from "@/validations/auth.validation";
+} from "../utils/session.js";
+import { AuthValidation } from "../validations/auth.validation.js";
 import { hash, verify } from "@node-rs/argon2";
 import { eq } from "drizzle-orm";
 import { Request, Response } from "express";
@@ -61,7 +61,7 @@ export class AuthService {
     });
     if (!user || !(await verify(user.hashedPassword, password))) {
       throw new ApiError(
-        STATUS_CODES.BAD_REQUEST,
+        STATUS_CODES.UNAUTHORIZED,
         AUTH_MESSAGE.INVALID_CREDENTIALS
       );
     }

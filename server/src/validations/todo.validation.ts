@@ -1,16 +1,31 @@
-import { todoPriority, todosTable, todoStatus } from "@/drizzle";
+import { todoPriority, todoStatus } from "../drizzle/index.js";
 import z from "zod";
 import {
   deleteValidation,
   getValidation,
   queryValidation
-} from "./global.validation";
-import { createInsertSchema } from "drizzle-zod";
-import { createUpdateSchema } from "drizzle-zod";
+} from "./global.validation.js";
+
+const todoFields = z
+  .object({
+    name: z.string().trim().min(1).max(225),
+    description: z.string().max(10000).nullable().optional(),
+    archived: z.boolean().optional(),
+    status: z.enum(todoStatus.enumValues).optional(),
+    priority: z.enum(todoPriority.enumValues).optional(),
+    dueDate: z
+      .union([
+        z.iso.datetime({ offset: true }).transform(value => new Date(value)),
+        z.date()
+      ])
+      .nullable()
+      .optional()
+  })
+  .strict();
 
 export class TodoValidation {
   static QUERY = z.object({
-    search: z.string().min(1).max(1000).optional(),
+    search: z.string().trim().min(1).max(1000).optional(),
     status: z.enum(todoStatus.enumValues).optional(),
     priority: z.enum(todoPriority.enumValues).optional(),
     ...queryValidation({
@@ -18,12 +33,12 @@ export class TodoValidation {
     })
   });
   static GET = getValidation({ by: ["id", "slug"] });
-  static CREATE = createInsertSchema(todosTable, {
-    userId: z.guid()
-  });
-  static UPDATE = createUpdateSchema(todosTable, {
-    userId: z.guid()
-  });
+  static CREATE = todoFields;
+  static UPDATE = todoFields
+    .partial()
+    .refine(value => Object.values(value).some(field => field !== undefined), {
+      message: "At least one todo field is required"
+    });
   static DELETE = deleteValidation({ by: ["id"] });
 }
 
